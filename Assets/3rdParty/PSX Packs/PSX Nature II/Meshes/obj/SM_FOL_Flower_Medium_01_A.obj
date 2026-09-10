@@ -1,0 +1,33 @@
+# 3ds Max Wavefront OBJ Exporter v0.99 - (c)2007 guruware
+# File Created: 07.12.2025 19:52:50
+
+mtllib SM_FOL_Flower_Medium_01_A.mtl
+
+#
+# object SM_FOL_Flower_Medium_01_A
+#
+
+v  17.5163 -3.2270 14.6981
+v  -15.9754 -3.2270 -13.4048
+v  -15.9754 44.2116 -13.4048
+v  17.5163 44.2116 14.6981
+v  -14.6981 -3.2270 17.5164
+v  13.4048 -3.2270 -15.9754
+v  13.4048 44.2116 -15.9754
+v  -14.6981 44.2116 17.5164
+# 8 vertices
+
+vt 0.0712 0.0208 0.0000
+vt 0.3306 0.0208 0.0000
+vt 0.3306 0.3023 0.0000
+vt 0.0712 0.3023 0.0000
+# 4 texture coords
+
+o SM_FOL_Flower_Medium_01_A
+g SM_FOL_Flower_Medium_01_A
+usemtl wire_216226162
+s 1
+f 1/1 2/2 3/3 4/4 
+f 5/1 6/2 7/3 8/4 
+# 2 polygons
+

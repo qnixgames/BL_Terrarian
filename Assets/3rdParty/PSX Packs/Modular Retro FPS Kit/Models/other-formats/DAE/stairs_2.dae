@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 3.4.0 commit date:2022-12-06, commit time:18:46, hash:a95bf1ac01be</authoring_tool>
+    </contributor>
+    <created>2025-03-16T21:08:08</created>
+    <modified>2025-03-16T21:08:08</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_effects>
+    <effect id="stairs_2-effect">
+      <profile_COMMON>
+        <newparam sid="stairs_2_png-surface">
+          <surface type="2D">
+            <init_from>stairs_2_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="stairs_2_png-sampler">
+          <sampler2D>
+            <source>stairs_2_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <texture texture="stairs_2_png-sampler" texcoord="UVMap"/>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.45</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_images>
+    <image id="stairs_2_png" name="stairs_2_png">
+      <init_from>stairs_2.png</init_from>
+    </image>
+  </library_images>
+  <library_materials>
+    <material id="stairs_2-material" name="stairs_2">
+      <instance_effect url="#stairs_2-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="stairs_2-mesh" name="stairs_2">
+      <mesh>
+        <source id="stairs_2-mesh-positions">
+          <float_array id="stairs_2-mesh-positions-array" count="90">1 0.9999992 0.8874996 -0.9999998 0.9999992 0.8874998 1 0.5714281 -0.1125003 -1 0.5714281 -0.1125 -1 0.8571421 0.3874999 1 0.8571421 0.3874996 1 0.285714 -0.6125004 -1 0.285714 -0.6125001 -1 0.4285711 -0.3625001 1 0.4285711 -0.3625004 1 0.7142851 0.1374995 -1 0.7142851 0.1374999 -0.9999999 0.9999992 0.6374999 1 0.9999992 0.6374996 0.9999999 0.142857 -0.8625004 -1 0.142857 -0.8625 0.9999999 0 -0.8875004 -1 0 -0.8875 1 0.285714 -0.3875004 -1 0.285714 -0.3875001 1 0.5714281 0.1124995 -1 0.5714281 0.1124999 1 0.8571422 0.6124996 -0.9999999 0.8571422 0.6125 -1 0.142857 -0.6375 1 0.142857 -0.6375004 -1 0.4285711 -0.1375 1 0.4285711 -0.1375003 -1 0.7142851 0.3625 1 0.7142851 0.3624996</float_array>
+          <technique_common>
+            <accessor source="#stairs_2-mesh-positions-array" count="30" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="stairs_2-mesh-normals">
+          <float_array id="stairs_2-mesh-normals-array" count="60">-1.41277e-7 0.1723803 -0.9850305 -1.79807e-7 0.1723804 -0.9850304 -2.05494e-7 0.1723803 -0.9850305 -1.5412e-7 0.1723803 -0.9850305 -1.79807e-7 0.1723802 -0.9850305 -1.5412e-7 0.1723802 -0.9850305 -2.05494e-7 0.1723803 -0.9850305 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 3.78442e-7 -1.41277e-7 0.1723803 -0.9850304 -1.5412e-7 0.1723799 -0.9850305 -1.5412e-7 0.1723803 -0.9850305 -1.66964e-7 0.1723803 -0.9850305 -2.05493e-7 0.1723802 -0.9850305 0 1 -5.29819e-7 0 1 -5.29819e-7</float_array>
+          <technique_common>
+            <accessor source="#stairs_2-mesh-normals-array" count="20" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="stairs_2-mesh-map-0">
+          <float_array id="stairs_2-mesh-map-0-array" count="168">1 0.4642857 0 0.5357142 0 0.4642857 1 0.6071428 0 0.6785712 0 0.6071428 1 0.3214287 0 0.3928572 0 0.3214287 1 0.3928572 0 0.4642857 0 0.3928572 1 0.5357142 0 0.6071428 0 0.5357142 1 0.6785712 0 0.7499998 0 0.6785712 1 0.2500002 0 0.3214287 0 0.2500002 1 0.25 0 0.3625 0 0.25 1 0.5 0 0.6125 0 0.5 1 0.75 0 0.8625 0 0.75 1 0.125 0 0.2375 0 0.125 1 0.375 0 0.4875 0 0.375 1 0.625 0 0.7375 0 0.625 1 0.875 0 1 0 0.875 1 0.4642857 1 0.5357142 0 0.5357142 1 0.6071428 1 0.6785712 0 0.6785712 1 0.3214287 1 0.3928572 0 0.3928572 1 0.3928572 1 0.4642857 0 0.4642857 1 0.5357142 1 0.6071428 0 0.6071428 1 0.6785712 1 0.7499998 0 0.7499998 1 0.2500002 1 0.3214287 0 0.3214287 1 0.25 1 0.3625 0 0.3625 1 0.5 1 0.6125 0 0.6125 1 0.75 1 0.8625 0 0.8625 1 0.125 1 0.2375 0 0.2375 1 0.375 1 0.4875 0 0.4875 1 0.625 1 0.7375 0 0.7375 1 0.875 1 1 0 1</float_array>
+          <technique_common>
+            <accessor source="#stairs_2-mesh-map-0-array" count="84" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="stairs_2-mesh-vertices">
+          <input semantic="POSITION" source="#stairs_2-mesh-positions"/>
+        </vertices>
+        <triangles material="stairs_2-material" count="28">
+          <input semantic="VERTEX" source="#stairs_2-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#stairs_2-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#stairs_2-mesh-map-0" offset="2" set="0"/>
+          <p>26 0 0 2 0 1 27 0 2 28 1 3 5 1 4 29 1 5 24 2 6 6 2 7 25 2 8 19 3 9 9 3 10 18 3 11 21 4 12 10 4 13 20 4 14 23 5 15 13 5 16 22 5 17 17 6 18 14 6 19 16 6 20 7 7 21 18 7 22 6 7 23 3 8 24 20 8 25 2 8 26 4 9 27 22 9 28 5 9 29 15 10 30 25 10 31 14 10 32 8 11 33 27 11 34 9 11 35 11 12 36 29 12 37 10 12 38 12 8 39 0 8 40 13 8 41 26 13 42 3 13 43 2 13 44 28 4 45 4 4 46 5 4 47 24 14 48 7 14 49 6 14 50 19 15 51 8 15 52 9 15 53 21 16 54 11 16 55 10 16 56 23 17 57 12 17 58 13 17 59 17 15 60 15 15 61 14 15 62 7 18 63 19 18 64 18 18 65 3 8 66 21 8 67 20 8 68 4 19 69 23 19 70 22 19 71 15 8 72 24 8 73 25 8 74 8 8 75 26 8 76 27 8 77 11 8 78 28 8 79 29 8 80 12 8 81 1 8 82 0 8 83</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="stairs_2" name="stairs_2" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 -4.37114e-8 -1.12676 0 0 1 -4.92522e-8 0 0 0 0 1</matrix>
+        <instance_geometry url="#stairs_2-mesh" name="stairs_2">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="stairs_2-material" target="#stairs_2-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

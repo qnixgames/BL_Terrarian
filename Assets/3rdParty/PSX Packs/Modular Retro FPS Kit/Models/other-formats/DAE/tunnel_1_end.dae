@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 3.4.0 commit date:2022-12-06, commit time:18:46, hash:a95bf1ac01be</authoring_tool>
+    </contributor>
+    <created>2025-03-16T21:08:08</created>
+    <modified>2025-03-16T21:08:08</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_effects>
+    <effect id="wall_5-effect">
+      <profile_COMMON>
+        <newparam sid="wall_5_png-surface">
+          <surface type="2D">
+            <init_from>wall_5_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="wall_5_png-sampler">
+          <sampler2D>
+            <source>wall_5_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <texture texture="wall_5_png-sampler" texcoord="UVMap"/>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.45</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_images>
+    <image id="wall_5_png" name="wall_5_png">
+      <init_from>wall_5.png</init_from>
+    </image>
+  </library_images>
+  <library_materials>
+    <material id="wall_5-material" name="wall_5">
+      <instance_effect url="#wall_5-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="tunnel_1_end-mesh" name="tunnel_1_end">
+      <mesh>
+        <source id="tunnel_1_end-mesh-positions">
+          <float_array id="tunnel_1_end-mesh-positions-array" count="54">-1 0 -1 1 0 -1 -1 0 1 1 0 1 -1 0.8 -1 -1 1.666025 -0.5 -1 1.3 -0.8660254 1 0.8 -1 1 1.8 -1.54178e-7 1 1.3 -0.8660255 1 1.666025 -0.5000001 -1 0.8 1 -1 1.8 0 -1 1.3 0.8660254 -1 1.666025 0.5 1 0.8 0.9999999 1 1.666025 0.4999998 1 1.3 0.8660253</float_array>
+          <technique_common>
+            <accessor source="#tunnel_1_end-mesh-positions-array" count="18" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="tunnel_1_end-mesh-normals">
+          <float_array id="tunnel_1_end-mesh-normals-array" count="87">-1.49012e-7 0 -1 0 -0.1305263 -0.991445 -1.49012e-7 0 -1 0 0 1 0 -0.1305262 0.991445 0 0 1 0 -0.8660254 0.5000002 0 -1 0 0 -1 0 0 -0.4999999 0.8660256 0 -0.8660255 0.4999999 0 -0.5000001 0.8660255 0 -0.8660254 -0.5000002 0 -0.4999999 -0.8660256 0 -0.8660255 -0.4999999 0 -0.5000001 -0.8660254 0.7071068 0.7071068 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 -1.33219e-7 -0.1305263 -0.9914448 1.33219e-7 -0.1305262 0.991445 0.7071068 0.7071068 0 1 0 -1.21724e-7 1 0 -4.44895e-7 1 -4.44895e-7 0 1 6.67343e-7 0</float_array>
+          <technique_common>
+            <accessor source="#tunnel_1_end-mesh-normals-array" count="29" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="tunnel_1_end-mesh-map-0">
+          <float_array id="tunnel_1_end-mesh-map-0-array" count="150">0.890625 0 0.109375 0.3125 0.109375 0 0.109375 1 0.890625 0.6875 0.890625 1 0.890625 0.2234374 0.109375 0.02031242 0.8906251 0.02031248 0.890625 0.4617448 0.109375 0.2586198 0.890625 0.2586198 0.890625 0.6851823 0.109375 0.4820573 0.890625 0.4820573 0.109375 0.7765625 0.890625 0.9796875 0.109375 0.9796875 0.109375 0.5382552 0.890625 0.7413802 0.109375 0.7413802 0.109375 0.3148177 0.890625 0.5179427 0.109375 0.5179427 0.890625 1 0.109375 0 0.109375 1 0.8830127 0.25 0.8830127 0.75 0.45 1 0.890625 0 0.890625 0.3125 0.109375 0.3125 0.109375 1 0.109375 0.6875 0.890625 0.6875 0.890625 0.2234374 0.109375 0.2234375 0.109375 0.02031242 0.890625 0.4617448 0.109375 0.4617449 0.109375 0.2586198 0.890625 0.6851823 0.109375 0.6851823 0.109375 0.4820573 0.109375 0.7765625 0.8906251 0.7765626 0.890625 0.9796875 0.109375 0.5382552 0.8906251 0.5382552 0.890625 0.7413802 0.109375 0.3148177 0.890625 0.3148177 0.890625 0.5179427 0.890625 1 0.890625 0 0.109375 0 0.45 0 0.7 0.06698727 0.8830127 0.25 0.8830127 0.25 0.95 0.5 0.8830127 0.75 0.8830127 0.75 0.7 0.9330127 0.45 1 0.45 1 0.05000001 1 0.04999995 0 0.04999995 0 0.45 0 0.45 1 0.45 0 0.8830127 0.25 0.45 1</float_array>
+          <technique_common>
+            <accessor source="#tunnel_1_end-mesh-map-0-array" count="75" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="tunnel_1_end-mesh-vertices">
+          <input semantic="POSITION" source="#tunnel_1_end-mesh-positions"/>
+        </vertices>
+        <triangles material="wall_5-material" count="25">
+          <input semantic="VERTEX" source="#tunnel_1_end-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#tunnel_1_end-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#tunnel_1_end-mesh-map-0" offset="2" set="0"/>
+          <p>2 0 0 15 1 1 3 2 2 1 3 3 4 4 4 0 5 5 5 6 6 8 7 7 12 8 8 6 9 9 10 10 10 5 6 11 4 4 12 9 11 13 6 9 14 16 12 15 12 8 16 8 7 17 17 13 18 14 14 19 16 12 20 15 1 21 13 15 22 17 13 23 0 16 24 3 17 25 1 18 26 5 19 27 14 20 28 11 21 29 2 0 30 11 22 31 15 1 32 1 3 33 7 23 34 4 4 35 5 6 36 10 10 37 8 7 38 6 9 39 9 11 40 10 10 41 4 4 42 7 23 43 9 11 44 16 12 45 14 14 46 12 8 47 17 13 48 13 15 49 14 14 50 15 1 51 11 22 52 13 15 53 0 16 54 2 24 55 3 17 56 4 25 57 6 26 58 5 19 59 5 19 60 12 27 61 14 20 62 14 20 63 13 28 64 11 21 65 11 21 66 2 24 67 0 16 68 0 16 69 4 25 70 11 21 71 4 25 72 5 19 73 11 21 74</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="tunnel_1_end" name="tunnel_1_end" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 -4.37114e-8 -1 0 0 1 -4.37114e-8 0 0 0 0 1</matrix>
+        <instance_geometry url="#tunnel_1_end-mesh" name="tunnel_1_end">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="wall_5-material" target="#wall_5-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

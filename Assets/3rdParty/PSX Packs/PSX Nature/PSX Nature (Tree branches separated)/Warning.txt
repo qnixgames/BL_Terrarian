@@ -1,0 +1,3 @@
+Important:
+Use this version of the tree branches being a separate child object only if you need it for sure and you know what you're doing!
+Using these for Unity engine Terrain component might have an issue of the branches being not visible due to them being a separate object from the tree body.
