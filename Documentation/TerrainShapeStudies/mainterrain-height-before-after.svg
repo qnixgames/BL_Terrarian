@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 780" role="img" aria-labelledby="title desc">
+  <title id="title">MainTerrain continuous mountain edge height design</title>
+  <desc id="desc">Conceptual before and after preview showing the S route preserved while a moderate continuous mountain edge and gentle interior slopes are added.</desc>
+  <rect width="1320" height="780" fill="#f4f1ea"/>
+  <text x="50" y="48" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#20252b">MainTerrain height design  before / after</text>
+  <text x="50" y="78" font-family="Arial,sans-serif" font-size="16" fill="#4c555d">Continuous mountain edge with a gentle playable plain; no broad plateau and no texture or vegetation edits.</text>
+  <g transform="translate(50 120)">
+    <text x="250" y="-18" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#30363b">Before  open edges</text>
+    <rect width="500" height="500" rx="8" fill="#d0d0cf" stroke="#5c6368" stroke-width="3"/>
+    <path d="M45 420 C130 395 170 425 230 370 C300 305 280 240 350 210 C405 188 440 145 470 80" fill="none" stroke="#4c5964" stroke-width="20" stroke-linecap="round"/>
+    <path d="M55 410 C135 385 185 420 245 360 C310 295 300 250 365 215 C415 190 440 145 465 95" fill="none" stroke="#bf8b52" stroke-width="8" stroke-linecap="round"/>
+    <path d="M20 20 L480 20 M20 480 L480 480 M20 20 L20 480 M480 20 L480 480" fill="none" stroke="#969b9d" stroke-width="12" stroke-dasharray="24 20" opacity=".35"/>
+    <text x="250" y="545" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" fill="#4c555d">S route is present; the map edge does not frame the play space.</text>
+  </g>
+  <g transform="translate(770 120)">
+    <text x="250" y="-18" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#30363b">After  continuous edge band</text>
+    <rect width="500" height="500" rx="8" fill="#d0d0cf" stroke="#30363b" stroke-width="3"/>
+    <path d="M0 60 C38 32 75 48 112 18 C150 -4 185 34 225 12 C270 -5 310 38 352 15 C400 -5 440 36 500 58 L500 122 C445 105 410 122 365 98 C320 75 278 108 235 88 C188 65 150 98 105 78 C64 59 35 86 0 108 Z" fill="#747b7e" stroke="#30363b" stroke-width="4"/>
+    <path d="M0 440 C38 468 75 452 112 482 C150 504 185 466 225 488 C270 505 310 462 352 485 C400 505 440 464 500 442 L500 378 C445 395 410 378 365 402 C320 425 278 392 235 412 C188 435 150 402 105 422 C64 441 35 414 0 392 Z" fill="#747b7e" stroke="#30363b" stroke-width="4"/>
+    <path d="M0 110 C35 95 65 78 105 86 M140 72 C175 86 204 70 238 89 M285 89 C320 70 348 86 380 76 M420 76 C450 86 475 98 500 110 M0 390 C35 405 65 422 105 414 M140 428 C175 414 204 430 238 411 M285 411 C320 430 348 414 380 424 M420 424 C450 414 475 402 500 390" fill="none" stroke="#c6c9ca" stroke-width="5" opacity=".8"/>
+    <path d="M45 420 C130 395 170 425 230 370 C300 305 280 240 350 210 C405 188 440 145 470 80" fill="none" stroke="#f5edcf" stroke-width="26" stroke-linecap="round"/>
+    <path d="M45 420 C130 395 170 425 230 370 C300 305 280 240 350 210 C405 188 440 145 470 80" fill="none" stroke="#bf8b52" stroke-width="8" stroke-linecap="round"/>
+    <path d="M90 180 C155 160 195 190 250 170 C310 148 360 182 425 160" fill="none" stroke="#b9bbb7" stroke-width="8" opacity=".65"/>
+    <text x="250" y="545" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" fill="#30363b">Full edge mountain band; crest varies and the central plain slopes gently.</text>
+  </g>
+  <g transform="translate(55 700)" font-family="Arial,sans-serif" font-size="14">
+    <rect width="18" height="18" fill="#747b7e"/><text x="25" y="14" fill="#30363b">continuous mountain edge</text>
+    <rect x="205" width="18" height="18" fill="#bf8b52"/><text x="230" y="14" fill="#30363b">existing S route</text>
+    <text x="420" y="14" fill="#4c555d">10% edge band " 0.025 interior undulation amplitude</text>
+  </g>
+</svg>

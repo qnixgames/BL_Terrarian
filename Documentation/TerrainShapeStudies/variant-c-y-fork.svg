@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 1180" role="img" aria-labelledby="title desc">
+  <title id="title">Variant C  bridge hub and lower branches</title>
+  <desc id="desc">Top-down study matching the customer map with a central bridge hub, east-west route, north-west camp, upper shop, north-east tower, south-west tower, and south-east arena.</desc>
+  <rect width="1120" height="1180" fill="#f4f1ea"/>
+  <text x="60" y="55" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#20252b">Variant C  bridge hub and lower branches</text>
+  <text x="60" y="83" font-family="Arial,sans-serif" font-size="16" fill="#4c555d">Shape study " 1,000 × 1,000 world units " north ‘ " diagram colors are not terrain textures</text>
+  <rect x="60" y="120" width="1000" height="1000" rx="8" fill="#aab0ad" stroke="#30363b" stroke-width="3"/>
+  <rect x="120" y="180" width="880" height="880" rx="18" fill="#d8d3bf" stroke="#727a75" stroke-width="2" stroke-dasharray="10 8"/>
+  <path d="M115 580 C300 580 420 580 560 580 C700 580 820 580 1005 580" fill="none" stroke="#fff8dd" stroke-width="62" stroke-linecap="round"/>
+  <path d="M115 580 C300 580 420 580 560 580 C700 580 820 580 1005 580" fill="none" stroke="#b98b55" stroke-width="40" stroke-linecap="round"/>
+  <path d="M290 580 C265 485 230 380 205 275" fill="none" stroke="#fff8dd" stroke-width="40" stroke-linecap="round"/>
+  <path d="M290 580 C265 485 230 380 205 275" fill="none" stroke="#b98b55" stroke-width="24" stroke-linecap="round"/>
+  <path d="M560 580 C555 490 550 400 550 320" fill="none" stroke="#fff8dd" stroke-width="38" stroke-linecap="round"/>
+  <path d="M560 580 C555 490 550 400 550 320" fill="none" stroke="#b98b55" stroke-width="22" stroke-linecap="round"/>
+  <path d="M810 580 C820 470 820 355 825 255" fill="none" stroke="#fff8dd" stroke-width="42" stroke-linecap="round"/>
+  <path d="M810 580 C820 470 820 355 825 255" fill="none" stroke="#b98b55" stroke-width="26" stroke-linecap="round"/>
+  <path d="M290 580 C320 670 355 760 310 855 C280 920 245 955 220 990" fill="none" stroke="#fff8dd" stroke-width="42" stroke-linecap="round"/>
+  <path d="M290 580 C320 670 355 760 310 855 C280 920 245 955 220 990" fill="none" stroke="#b98b55" stroke-width="26" stroke-linecap="round"/>
+  <path d="M560 580 C650 630 735 700 820 770 C875 815 900 870 900 925" fill="none" stroke="#fff8dd" stroke-width="42" stroke-linecap="round"/>
+  <path d="M560 580 C650 630 735 700 820 770 C875 815 900 870 900 925" fill="none" stroke="#b98b55" stroke-width="26" stroke-linecap="round"/>
+  <path d="M165 580 L195 580 M485 580 L515 580 M835 580 L865 580" stroke="#354d5b" stroke-width="16" stroke-linecap="round"/>
+  <path d="M175 565 L185 595 M495 565 L505 595 M845 565 L855 595" stroke="#f1e5b7" stroke-width="4"/>
+  <circle cx="205" cy="275" r="44" fill="#8eaa72" opacity=".85" stroke="#405e3b" stroke-width="3"/>
+  <rect x="515" y="285" width="70" height="46" rx="5" fill="#c3a56d" stroke="#5c4328" stroke-width="3"/>
+  <path d="M790 285 L825 230 L860 285 Z" fill="#8b9296" stroke="#30363b" stroke-width="3"/>
+  <rect x="180" y="955" width="72" height="58" rx="5" fill="#8b9296" stroke="#30363b" stroke-width="3"/>
+  <circle cx="900" cy="925" r="70" fill="#c1a3a0" stroke="#6f3f42" stroke-width="5"/>
+  <text x="205" y="280" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#284425">CAMP / SAVE</text>
+  <text x="550" y="314" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#5c4328">SHOP</text>
+  <text x="825" y="218" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#30363b">NE TOWER</text>
+  <text x="215" y="1042" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#30363b">SW TOWER</text>
+  <text x="900" y="930" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#6f3f42">ARENA / BOSS</text>
+  <text x="560" y="535" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" fill="#5c4328">MAIN EASTWEST ROUTE</text>
+  <text x="92" y="150" font-family="Arial,sans-serif" font-size="14" fill="#30363b" transform="rotate(-90 92 150)">RAISED PERIMETER " 60u</text>
+  <g transform="translate(80 1140)" font-family="Arial,sans-serif" font-size="14">
+    <rect width="18" height="18" fill="#aab0ad"/><text x="25" y="14" fill="#30363b">raised edge</text>
+    <rect x="130" width="18" height="18" fill="#b98b55"/><text x="155" y="14" fill="#30363b">route</text>
+    <rect x="230" width="18" height="18" fill="#354d5b"/><text x="255" y="14" fill="#30363b">bridge crossing</text>
+  </g>
+</svg>
