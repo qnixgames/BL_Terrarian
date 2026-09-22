@@ -33,12 +33,13 @@ Material:
     - _BladeHeightRandom: 0.25
     - _BladeWidth: 0.05
     - _BladeWidthRandom: 0.02
+    - _Brightness: 1.15
     - _MaxStages: 7
-    - _TranslucentGain: 0.04
+    - _TranslucentGain: 0.22
     - _ViewLOD: 48
     - _WindStrength: 0.35
     m_Colors:
-    - _BottomColor: {r: 0.008, g: 0.022, b: 0.01, a: 1}
-    - _TopColor: {r: 0.035, g: 0.07, b: 0.03, a: 1}
+    - _BottomColor: {r: 0.08, g: 0.2, b: 0.07, a: 1}
+    - _TopColor: {r: 0.32, g: 0.52, b: 0.2, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

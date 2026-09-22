@@ -374,9 +374,11 @@ public static class DynamicGrassTerrainBuilder
         {
             name = "Terrain Grass Material"
         };
-        mat.SetColor("_TopColor", new Color(0.18f, 0.32f, 0.12f, 1f));
-        mat.SetColor("_BottomColor", new Color(0.02f, 0.08f, 0.03f, 1f));
-        mat.SetFloat("_TranslucentGain", 0.12f);
+        mat.SetColor("_TopColor", new Color(0.28f, 0.46f, 0.18f, 1f));
+        mat.SetColor("_BottomColor", new Color(0.07f, 0.18f, 0.06f, 1f));
+        mat.SetFloat("_TranslucentGain", 0.28f);
+        if (mat.HasProperty("_Brightness"))
+            mat.SetFloat("_Brightness", 1.35f);
         mat.SetFloat("_WindStrength", 0.35f);
         mat.SetFloat("_ViewLOD", 48f);
         mat.SetFloat("_MaxStages", 7f);

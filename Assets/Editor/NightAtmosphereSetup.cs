@@ -20,12 +20,12 @@ public static class NightAtmosphereSetup
     private const string GrassLayerPath =
         "Assets/3rdParty/Retro Shaders Pro/Demo/Terrain/GrassLayer.terrainlayer";
 
-    // Day grass (readable green).
-    private static readonly Color DayGrassTop = new Color(0.18f, 0.32f, 0.12f, 1f);
-    private static readonly Color DayGrassBottom = new Color(0.02f, 0.08f, 0.03f, 1f);
-    // Night grass — muted so blades don't glow under moonlight.
-    private static readonly Color NightGrassTop = new Color(0.035f, 0.07f, 0.03f, 1f);
-    private static readonly Color NightGrassBottom = new Color(0.008f, 0.022f, 0.01f, 1f);
+    // Day grass.
+    private static readonly Color DayGrassTop = new Color(0.32f, 0.52f, 0.20f, 1f);
+    private static readonly Color DayGrassBottom = new Color(0.08f, 0.20f, 0.07f, 1f);
+    // Night Dynamic Grass — mid tone between crushed-black and washed-out bright.
+    private static readonly Color NightGrassTop = new Color(0.28f, 0.46f, 0.18f, 1f);
+    private static readonly Color NightGrassBottom = new Color(0.07f, 0.18f, 0.06f, 1f);
 
     [MenuItem(MenuRoot + "Toggle Day / Night", priority = 238)]
     public static void ToggleDayNight()
@@ -167,7 +167,9 @@ public static class NightAtmosphereSetup
             grassMat.SetColor("_TopColor", night ? NightGrassTop : DayGrassTop);
             grassMat.SetColor("_BottomColor", night ? NightGrassBottom : DayGrassBottom);
             if (grassMat.HasProperty("_TranslucentGain"))
-                grassMat.SetFloat("_TranslucentGain", night ? 0.04f : 0.12f);
+                grassMat.SetFloat("_TranslucentGain", night ? 0.28f : 0.22f);
+            if (grassMat.HasProperty("_Brightness"))
+                grassMat.SetFloat("_Brightness", night ? 1.35f : 1.15f);
             EditorUtility.SetDirty(grassMat);
         }
 
@@ -177,7 +179,7 @@ public static class NightAtmosphereSetup
             Undo.RecordObject(grassLayer, night ? "Night terrain grass" : "Day terrain grass");
             // DiffuseRemapMax scales terrain splat albedo (1,1,1 = full bright texture).
             if (night)
-                grassLayer.diffuseRemapMax = new Vector4(0.28f, 0.34f, 0.22f, 1f);
+                grassLayer.diffuseRemapMax = new Vector4(0.88f, 0.95f, 0.75f, 1f);
             else
                 grassLayer.diffuseRemapMax = new Vector4(1f, 1f, 1f, 1f);
             EditorUtility.SetDirty(grassLayer);

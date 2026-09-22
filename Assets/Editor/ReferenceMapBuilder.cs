@@ -59,9 +59,9 @@ public static class ReferenceMapBuilder
         "SM_FOL_Grass_Tall_02_A"
     };
 
-    // Normalized layout (x = east, y = north). Matches the reference top-down map.
-    private const float RiverSouth = 0.44f;
-    private const float RiverNorth = 0.56f;
+    // Normalized layout (x = east, y = north). River ≈ 1/3 of original 0.12 band.
+    private const float RiverSouth = 0.48f;
+    private const float RiverNorth = 0.52f;
     private const float BaseHeight = 0.14f;
     private const float RiverFloor = 0.015f;
     private const float EdgeRim = 0.22f;
@@ -102,6 +102,7 @@ public static class ReferenceMapBuilder
         EditorApplication.delayCall += TryConsumePendingRebuildFlag;
         EditorApplication.delayCall += TryConsumePendingReplantFlag;
         EditorApplication.delayCall += TryConsumePendingGrassFlag;
+        EditorApplication.delayCall += TreeCutterAreaSetup.TryConsumePendingFlagPublic;
         EditorApplication.update += PollPendingRebuildFlag;
     }
 
@@ -110,7 +111,7 @@ public static class ReferenceMapBuilder
     private static void PollPendingRebuildFlag()
     {
         if (s_PollUntil <= 0d)
-            s_PollUntil = EditorApplication.timeSinceStartup + 60d;
+            s_PollUntil = EditorApplication.timeSinceStartup + 90d;
 
         if (EditorApplication.timeSinceStartup > s_PollUntil)
         {
@@ -121,6 +122,7 @@ public static class ReferenceMapBuilder
         TryConsumePendingRebuildFlag();
         TryConsumePendingReplantFlag();
         TryConsumePendingGrassFlag();
+        TreeCutterAreaSetup.TryConsumePendingFlagPublic();
     }
 
     private static bool s_RebuildRunning;
@@ -284,6 +286,31 @@ public static class ReferenceMapBuilder
     private static void MenuRemoveRiverFords()
     {
         ApplyBridgeOnlyCrossing();
+    }
+
+    [MenuItem(MenuRoot + "Apply Map Feedback (river 2/3, wavy roads)", priority = 224)]
+    private static void MenuApplyMapFeedback()
+    {
+        if (!TryGetMainTerrain(out Terrain terrain))
+            return;
+
+        EnsurePlayerScale(terrain);
+        BackupTerrainData(terrain.terrainData, "Before Map Feedback");
+        BuildShape(terrain);
+        PaintSurfaces(terrain);
+        PlaceStructures(terrain);
+        MarkDirty(terrain);
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+
+        // Refresh night grass one-tone brighter if currently night.
+        if (NightAtmosphereSetup.IsNight())
+            NightAtmosphereSetup.ApplyNight();
+
+        // Refit bridges to new river span + colliders.
+        LowPolyBridgeInstaller.ReplaceBridges();
+        LowPolyBridgeInstaller.RefitAllBridgeColliders();
+
+        Debug.Log("Map feedback applied: river half-width, stronger wavy roads, brighter night grass.");
     }
 
     /// <summary>
@@ -1220,48 +1247,103 @@ public static class ReferenceMapBuilder
     {
         float d = float.MaxValue;
 
-        // Main north-south spine — split at the river so there is no terrain ford.
-        d = Mathf.Min(d, SegmentDistance(p, new Vector2(0.50f, 0.04f), new Vector2(0.50f, RiverSouth)));
-        d = Mathf.Min(d, SegmentDistance(p, new Vector2(0.50f, RiverNorth), new Vector2(0.50f, 0.96f)));
+        // Main north-south spine — strong meanders (amplitude in normalized map units).
+        d = Mathf.Min(d, CurvedPathDistance(
+            p, new Vector2(0.50f, 0.04f), new Vector2(0.50f, RiverSouth),
+            amplitude: 0.045f, frequency: 2.6f, seed: 11));
+        d = Mathf.Min(d, CurvedPathDistance(
+            p, new Vector2(0.50f, RiverNorth), new Vector2(0.50f, 0.96f),
+            amplitude: 0.042f, frequency: 2.4f, seed: 17));
 
-        // North and south bank connectors.
-        d = Mathf.Min(d, SegmentDistance(
+        // Bank connectors — clear shoreline wiggles.
+        d = Mathf.Min(d, CurvedPathDistance(
             p,
-            new Vector2(0.08f, RiverNorth + 0.03f),
-            new Vector2(0.92f, RiverNorth + 0.03f)));
-        d = Mathf.Min(d, SegmentDistance(
+            new Vector2(0.08f, RiverNorth + 0.02f),
+            new Vector2(0.92f, RiverNorth + 0.02f),
+            amplitude: 0.028f, frequency: 3.4f, seed: 23));
+        d = Mathf.Min(d, CurvedPathDistance(
             p,
-            new Vector2(0.08f, RiverSouth - 0.03f),
-            new Vector2(0.92f, RiverSouth - 0.03f)));
+            new Vector2(0.08f, RiverSouth - 0.02f),
+            new Vector2(0.92f, RiverSouth - 0.02f),
+            amplitude: 0.028f, frequency: 3.1f, seed: 29));
 
-        // Short approach stubs to each bridge end (banks only — not across water).
+        // Bridge approaches — slight bend only.
         for (int i = 0; i < BridgeXs.Length; i++)
         {
             float bx = BridgeXs[i];
-            d = Mathf.Min(d, SegmentDistance(
+            d = Mathf.Min(d, CurvedPathDistance(
                 p,
-                new Vector2(bx, RiverSouth - 0.03f),
-                new Vector2(bx, RiverSouth)));
-            d = Mathf.Min(d, SegmentDistance(
+                new Vector2(bx, RiverSouth - 0.02f),
+                new Vector2(bx, RiverSouth),
+                amplitude: 0.008f, frequency: 1.5f, seed: 31 + i));
+            d = Mathf.Min(d, CurvedPathDistance(
                 p,
                 new Vector2(bx, RiverNorth),
-                new Vector2(bx, RiverNorth + 0.03f)));
+                new Vector2(bx, RiverNorth + 0.02f),
+                amplitude: 0.008f, frequency: 1.5f, seed: 41 + i));
         }
 
-        // Diagonal / branch paths to clearings.
-        d = Mathf.Min(d, SegmentDistance(p, new Vector2(0.50f, RiverNorth + 0.03f), NwHut));
-        d = Mathf.Min(d, SegmentDistance(p, new Vector2(0.50f, RiverNorth + 0.03f), NeTower));
-        d = Mathf.Min(d, SegmentDistance(p, new Vector2(0.50f, RiverNorth + 0.03f), NorthBooth));
-        d = Mathf.Min(d, SegmentDistance(p, new Vector2(0.50f, RiverSouth - 0.03f), SwSilo));
-        d = Mathf.Min(d, SegmentDistance(p, new Vector2(0.50f, RiverSouth - 0.03f), SeHouse));
+        // Branches to clearings.
+        d = Mathf.Min(d, CurvedPathDistance(p, new Vector2(0.50f, RiverNorth + 0.02f), NwHut, 0.035f, 2.1f, 51));
+        d = Mathf.Min(d, CurvedPathDistance(p, new Vector2(0.50f, RiverNorth + 0.02f), NeTower, 0.035f, 2.2f, 53));
+        d = Mathf.Min(d, CurvedPathDistance(p, new Vector2(0.50f, RiverNorth + 0.02f), NorthBooth, 0.018f, 1.6f, 55));
+        d = Mathf.Min(d, CurvedPathDistance(p, new Vector2(0.50f, RiverSouth - 0.02f), SwSilo, 0.035f, 2.0f, 57));
+        d = Mathf.Min(d, CurvedPathDistance(p, new Vector2(0.50f, RiverSouth - 0.02f), SeHouse, 0.035f, 2.1f, 59));
 
-        // Soft arcs from side bridges toward NW / NE clearings (reference look).
-        d = Mathf.Min(d, SegmentDistance(p, new Vector2(0.25f, RiverNorth + 0.03f), NwHut));
-        d = Mathf.Min(d, SegmentDistance(p, new Vector2(0.75f, RiverNorth + 0.03f), NeTower));
-        d = Mathf.Min(d, SegmentDistance(p, new Vector2(0.25f, RiverSouth - 0.03f), SwSilo));
-        d = Mathf.Min(d, SegmentDistance(p, new Vector2(0.75f, RiverSouth - 0.03f), SeHouse));
+        d = Mathf.Min(d, CurvedPathDistance(p, new Vector2(0.25f, RiverNorth + 0.02f), NwHut, 0.03f, 1.9f, 61));
+        d = Mathf.Min(d, CurvedPathDistance(p, new Vector2(0.75f, RiverNorth + 0.02f), NeTower, 0.03f, 1.9f, 63));
+        d = Mathf.Min(d, CurvedPathDistance(p, new Vector2(0.25f, RiverSouth - 0.02f), SwSilo, 0.03f, 1.8f, 65));
+        d = Mathf.Min(d, CurvedPathDistance(p, new Vector2(0.75f, RiverSouth - 0.02f), SeHouse, 0.03f, 1.8f, 67));
 
         return d;
+    }
+
+    /// <summary>
+    /// Distance to a wavy polyline from a→b. Endpoints stay pinned; midpoints meander.
+    /// </summary>
+    private static float CurvedPathDistance(
+        Vector2 p,
+        Vector2 a,
+        Vector2 b,
+        float amplitude,
+        float frequency,
+        int seed)
+    {
+        Vector2 ab = b - a;
+        float len = ab.magnitude;
+        if (len < 1e-6f)
+            return Vector2.Distance(p, a);
+
+        // Short stubs stay nearly straight.
+        float amp = amplitude;
+        if (len < 0.04f)
+            amp *= 0.35f;
+
+        Vector2 dir = ab / len;
+        Vector2 perp = new Vector2(-dir.y, dir.x);
+
+        const int steps = 24;
+        float best = float.MaxValue;
+        Vector2 prev = a;
+
+        for (int i = 1; i <= steps; i++)
+        {
+            float t = i / (float)steps;
+            Vector2 basePt = Vector2.Lerp(a, b, t);
+
+            // Softer than pure sin so mid-path still bends hard, ends meet cleanly.
+            float envelope = Mathf.SmoothStep(0f, 1f, Mathf.Sin(t * Mathf.PI));
+            float wave = Mathf.Sin(t * Mathf.PI * frequency + seed * 0.37f);
+            float wave2 = Mathf.Sin(t * Mathf.PI * (frequency * 0.55f) + seed * 1.1f);
+            float noise = Mathf.PerlinNoise(t * frequency * 2.3f + seed * 0.13f, seed * 0.71f) - 0.5f;
+            float offset = (wave * 0.55f + wave2 * 0.35f + noise * 1.25f) * amp * envelope;
+
+            Vector2 pt = basePt + perp * offset;
+            best = Mathf.Min(best, SegmentDistance(p, prev, pt));
+            prev = pt;
+        }
+
+        return best;
     }
 
     private static float ClearingDistance(Vector2 p)

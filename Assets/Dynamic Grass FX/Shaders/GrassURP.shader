@@ -3,9 +3,10 @@ Shader "Bytesized/GrassURP"
     Properties
     {
         [Header(Shading)]
-        _TopColor("Top Color", Color) = (0.57, 0.84, 0.32, 1.0)
-        _BottomColor("Bottom Color", Color) = (0.0625, 0.375, 0.07, 1.0)
+        _TopColor("Top Color", Color) = (0.45, 0.72, 0.28, 1.0)
+        _BottomColor("Bottom Color", Color) = (0.14, 0.32, 0.10, 1.0)
         _TranslucentGain("Translucent Gain", Range(0,1)) = 0.5
+        _Brightness("Brightness", Range(0.5, 4)) = 1.35
 
         [Header(Wind)]
         _WindStrength("Wind Strength", Range(0.0001, 1)) = 0.3
@@ -61,6 +62,7 @@ Shader "Bytesized/GrassURP"
                 float4 _TopColor;
                 float4 _BottomColor;
                 float _TranslucentGain;
+                float _Brightness;
                 float _WindStrength;
                 float _ViewLOD;
                 float _MaxStages;
@@ -191,17 +193,20 @@ Shader "Bytesized/GrassURP"
                 Light mainLight = GetMainLight(shadowCoord);
                 float3 lightDir = GrassSafeNormalize(mainLight.direction, float3(0, 1, 0));
 
-                // Soft wrap lighting — keep translucent gain modest so night moon stays dim.
+                // Soft wrap — readable under moonlight without washing out.
                 float wrap = saturate(dot(normalWS, lightDir) * 0.5 + 0.5);
-                float diffuse = lerp(wrap, saturate(dot(normalWS, lightDir)), 0.35);
-                diffuse = saturate(diffuse + _TranslucentGain * 0.15);
+                float diffuse = lerp(wrap, saturate(dot(normalWS, lightDir)), 0.3);
+                diffuse = saturate(diffuse + _TranslucentGain * 0.25);
                 diffuse *= mainLight.shadowAttenuation * mainLight.distanceAttenuation;
 
-                float3 ambient = SampleSH(normalWS) * 0.35;
+                float3 ambient = SampleSH(normalWS);
+                ambient = max(ambient, float3(0.06, 0.08, 0.045));
+
                 float3 lighting = diffuse * mainLight.color + ambient;
+                lighting = max(lighting, float3(0.10, 0.13, 0.07));
+
                 float3 albedo = lerp(_BottomColor.rgb, _TopColor.rgb, i.uv.y);
-                // Soft clamp — stop blades from reading as emissive neon green at night.
-                float3 lit = min(albedo * lighting, albedo * 1.1);
+                float3 lit = albedo * lighting * _Brightness;
                 return half4(lit, 1);
             }
             ENDHLSL

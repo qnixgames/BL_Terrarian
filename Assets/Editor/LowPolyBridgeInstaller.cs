@@ -16,8 +16,8 @@ public static class LowPolyBridgeInstaller
     private const string FordSessionKey = "BL_Terrarian.RiverFordsCleared";
     private const string ColliderSessionKey = "BL_Terrarian.BridgeCollidersV2";
 
-    private const float RiverSouth = 0.44f;
-    private const float RiverNorth = 0.56f;
+    private const float RiverSouth = 0.48f;
+    private const float RiverNorth = 0.52f;
     private static readonly float[] BridgeXs = { 0.25f, 0.50f, 0.75f };
 
     // Fraction of mesh height used as the walkable plank slab (from mesh bottom).
