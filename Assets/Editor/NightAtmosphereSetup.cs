@@ -125,8 +125,9 @@ public static class NightAtmosphereSetup
 
         RenderSettings.fog = true;
         RenderSettings.fogMode = FogMode.ExponentialSquared;
-        RenderSettings.fogColor = new Color(0.72f, 0.82f, 0.92f, 1f);
-        RenderSettings.fogDensity = 0.0018f;
+        // Soft green-grey aerial perspective — hides finite map edge from high views.
+        RenderSettings.fogColor = new Color(0.62f, 0.72f, 0.68f, 1f);
+        RenderSettings.fogDensity = 0.004f;
 
         RenderSettings.ambientMode = AmbientMode.Trilight;
         RenderSettings.ambientSkyColor = new Color(0.55f, 0.65f, 0.85f);

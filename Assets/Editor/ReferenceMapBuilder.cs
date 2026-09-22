@@ -103,6 +103,7 @@ public static class ReferenceMapBuilder
         EditorApplication.delayCall += TryConsumePendingReplantFlag;
         EditorApplication.delayCall += TryConsumePendingGrassFlag;
         EditorApplication.delayCall += TreeCutterAreaSetup.TryConsumePendingFlagPublic;
+        EditorApplication.delayCall += HorizonForestRingBuilder.TryConsumePendingFlagPublic;
         EditorApplication.update += PollPendingRebuildFlag;
     }
 
@@ -123,6 +124,7 @@ public static class ReferenceMapBuilder
         TryConsumePendingReplantFlag();
         TryConsumePendingGrassFlag();
         TreeCutterAreaSetup.TryConsumePendingFlagPublic();
+        HorizonForestRingBuilder.TryConsumePendingFlagPublic();
     }
 
     private static bool s_RebuildRunning;
@@ -880,10 +882,19 @@ public static class ReferenceMapBuilder
                     continue;
                 if (ClearingDistance(p) < excludeClear)
                     continue;
-                if (EdgeFactor(p.x, p.y) > 0.92f)
+
+                float edge = EdgeFactor(p.x, p.y);
+                // Absolute rim stays clear of tiny cliff artifacts; dense belt just inside.
+                if (edge > 0.98f)
                     continue;
 
                 float scale = Mathf.Lerp(TreeScaleMin, TreeScaleMax, (float)rng.NextDouble());
+                if (edge >= 0.78f)
+                {
+                    // Edge forest wall — taller pines, denser via extra samples below.
+                    scale *= Mathf.Lerp(1.2f, 1.4f, (edge - 0.78f) / 0.2f);
+                }
+
                 trees.Add(new TreeInstance
                 {
                     position = new Vector3(p.x, 0f, p.y),
@@ -897,6 +908,8 @@ public static class ReferenceMapBuilder
             }
         }
 
+        AppendEdgeForestBelt(trees, pinePrefabs.Count, rng, excludeRoad, excludeClear);
+
         data.SetTreeInstances(trees.ToArray(), true);
         PlantGrass(terrain, data, rng);
         TerrainTreeLodToggle.Apply(terrain);
@@ -904,6 +917,146 @@ public static class ReferenceMapBuilder
         Debug.Log(
             "Planted " + trees.Count + " dense pines (spacing " + spacing +
             "m) + independent dense grass.");
+    }
+
+    /// <summary>
+    /// Extra dense / tall pines in the outer EdgeFactor band (0.78–0.98).
+    /// </summary>
+    private static void AppendEdgeForestBelt(
+        List<TreeInstance> trees,
+        int prototypeCount,
+        System.Random rng,
+        float excludeRoad,
+        float excludeClear)
+    {
+        if (prototypeCount <= 0)
+            return;
+
+        // Dense square rings just inside the map rim.
+        const int ringSteps = 220;
+        const int ringRows = 5;
+        for (int row = 0; row < ringRows; row++)
+        {
+            float edgeTarget = Mathf.Lerp(0.80f, 0.96f, row / (float)(ringRows - 1));
+            for (int i = 0; i < ringSteps; i++)
+            {
+                float t = i / (float)ringSteps;
+                // Square ring: walk perimeter at fixed "inset" derived from edgeTarget.
+                // EdgeFactor uses max distance to center axes — place near borders.
+                float inset = Mathf.Lerp(0.02f, 0.11f, 1f - (edgeTarget - 0.78f) / 0.2f);
+                Vector2 p = PerimeterPoint(t, inset);
+                p.x += ((float)rng.NextDouble() - 0.5f) * 0.01f;
+                p.y += ((float)rng.NextDouble() - 0.5f) * 0.01f;
+                p.x = Mathf.Clamp01(p.x);
+                p.y = Mathf.Clamp01(p.y);
+
+                float edge = EdgeFactor(p.x, p.y);
+                if (edge < 0.78f || edge > 0.98f)
+                    continue;
+                if (p.y > RiverSouth - 0.012f && p.y < RiverNorth + 0.012f)
+                    continue;
+                if (RouteDistance(p) < excludeRoad)
+                    continue;
+                if (ClearingDistance(p) < excludeClear)
+                    continue;
+
+                float scale = Mathf.Lerp(TreeScaleMin * 1.25f, TreeScaleMax * 1.4f, (float)rng.NextDouble());
+                trees.Add(new TreeInstance
+                {
+                    position = new Vector3(p.x, 0f, p.y),
+                    widthScale = scale,
+                    heightScale = scale,
+                    rotation = (float)(rng.NextDouble() * Mathf.PI * 2.0),
+                    color = Color.white,
+                    lightmapColor = Color.white,
+                    prototypeIndex = rng.Next(0, prototypeCount)
+                });
+            }
+        }
+    }
+
+    private static Vector2 PerimeterPoint(float t, float inset)
+    {
+        // t in [0,1) walks the square border inset from each edge.
+        float u = Mathf.Repeat(t, 1f) * 4f;
+        float a = inset;
+        float b = 1f - inset;
+        if (u < 1f)
+            return new Vector2(Mathf.Lerp(a, b, u), a);
+        if (u < 2f)
+            return new Vector2(b, Mathf.Lerp(a, b, u - 1f));
+        if (u < 3f)
+            return new Vector2(Mathf.Lerp(b, a, u - 2f), b);
+        return new Vector2(a, Mathf.Lerp(b, a, u - 3f));
+    }
+
+    [MenuItem(MenuRoot + "Reinforce Edge Forest Belt", priority = 265)]
+    private static void MenuReinforceEdgeForestBelt()
+    {
+        if (!TryGetMainTerrain(out Terrain terrain))
+            return;
+
+        EnsurePlayerScale(terrain);
+        ReinforcedEdgeForestBelt(terrain);
+        MarkDirty(terrain);
+        EditorSceneManager.SaveScene(terrain.gameObject.scene);
+        Debug.Log("Edge forest belt reinforced (interior trees kept).");
+    }
+
+    /// <summary>Remove trees in the edge band and replant a dense tall belt; keep interior.</summary>
+    public static void ReinforcedEdgeForestBelt(Terrain terrain)
+    {
+        EnsurePlayerScale(terrain);
+        TerrainData data = terrain.terrainData;
+        List<GameObject> pinePrefabs = EnsurePinePrefabs();
+        if (pinePrefabs.Count == 0)
+        {
+            EditorUtility.DisplayDialog(
+                "Missing pine trees",
+                "Could not find PSX Nature pine FBX models under:\n" + PineFolder,
+                "OK");
+            return;
+        }
+
+        Undo.RegisterCompleteObjectUndo(data, "Reinforce edge forest belt");
+
+        // Ensure prototypes include pines.
+        TreePrototype[] treeProtos = data.treePrototypes;
+        if (treeProtos == null || treeProtos.Length == 0)
+        {
+            treeProtos = new TreePrototype[pinePrefabs.Count];
+            for (int i = 0; i < pinePrefabs.Count; i++)
+                treeProtos[i] = new TreePrototype { prefab = pinePrefabs[i] };
+            data.treePrototypes = treeProtos;
+        }
+
+        int protoCount = data.treePrototypes.Length;
+        List<TreeInstance> kept = new List<TreeInstance>();
+        TreeInstance[] existing = data.treeInstances;
+        int removed = 0;
+        for (int i = 0; i < existing.Length; i++)
+        {
+            TreeInstance t = existing[i];
+            float edge = EdgeFactor(t.position.x, t.position.z);
+            if (edge >= 0.78f)
+            {
+                removed++;
+                continue;
+            }
+
+            kept.Add(t);
+        }
+
+        System.Random rng = new System.Random(91);
+        float excludeRoad = RoadHalfWidth + (PlayerHeight * 2.5f) / data.size.x;
+        float excludeClear = ClearingRadius + (PlayerHeight * 2f) / data.size.x;
+        AppendEdgeForestBelt(kept, protoCount, rng, excludeRoad, excludeClear);
+
+        data.SetTreeInstances(kept.ToArray(), true);
+        TerrainTreeLodToggle.Apply(terrain);
+        terrain.Flush();
+        Debug.Log(
+            "Edge belt: removed " + removed + " old edge trees, total now " + kept.Count + ".");
     }
 
     [MenuItem(MenuRoot + "05 Replant Grass Only")]
